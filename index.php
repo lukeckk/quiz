@@ -35,8 +35,13 @@ $f3->route('GET|POST /survey', function($f3){
         //get the data
         $name = $_POST['name'];
 
+
+        if (isset($_POST['checkBoxes']) && is_array($_POST['checkBoxes'])) {
+            $boxes = implode(", ", $_POST['checkBoxes']);
+        }
+
 //        $boxes = implode(", ", $_POST['checkBoxes']);
-        $boxes = $_POST['checkBoxes'];
+//        $boxes = $_POST['checkBoxes'];
 
 
         $f3->set('SESSION.name', $name);
@@ -61,9 +66,6 @@ $f3->route('GET|POST /summary', function(){
     //echo below is used for testing before executing the template
 //    echo '<h1>Hello Pets 2</h1>';
 
-    //Render a view
-    var_dump($_POST['name']);
-    var_dump($_POST['checkBoxes']);
     $view = new Template();
     echo $view->render('views/summary.html');
 });

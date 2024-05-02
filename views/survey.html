@@ -8,7 +8,7 @@
     <title>Survey Page</title>
 </head>
 <body>
-    <h1> Midterm Survey asdfa</h1>
+    <h1> Midterm Survey</h1>
 
     <form action="#" method="post">
         <label for="name" class="">Name</label>
@@ -17,7 +17,7 @@
         <label class="">Check all that apply:</label>
         <div class="">
             <repeat group="{{ @checkBoxes }}" value="{{ @checkBoxes }}">
-                <label><input type="checkbox" name="checkBoxes" value="{{ @checkBoxes }}"> {{ ucfirst(@checkBoxes) }}</label><br>
+                <label><input type="checkbox" name="checkBoxes[]" value="{{ @checkBoxes }}"> {{ ucfirst(@checkBoxes) }}</label><br>
             </repeat>
         </div>
 
