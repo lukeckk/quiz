@@ -8,6 +8,7 @@ error_reporting(E_ALL);
 
 //Require
 require_once ('vendor/autoload.php');
+require_once ('model/data-layer.php');
 
 //Instantiate the F3 Base Class
 $f3 = Base::instance();
@@ -24,41 +25,50 @@ $f3->route('GET /', function(){
 });
 
 //Order Page
-$f3->route('GET|POST /order', function($f3){
+$f3->route('GET|POST /survey', function($f3){
+
+    $checkBox = "";
+
     //Check if the form has been posted
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         //get the data
-        $pet = $_POST['pet'];
-        $color = $_POST['color'];
+        $name = $_POST['name'];
 
-        echo "post method";
-        //validate the data
-        if (empty($pet)) {
-            echo "Please supply a pet type";
-        } else {
-            echo "get method";
-            $f3->set('SESSION.pet', $pet);
-            $f3->set('SESSION.color', $color);
+//        $boxes = implode(", ", $_POST['checkBoxes']);
+        $boxes = $_POST['checkBoxes'];
 
+
+        $f3->set('SESSION.name', $name);
+        $f3->set('SESSION.checkBoxes', $boxes);
+
+
+        if(empty($f3->get('errors'))){
             $f3->reroute('summary');
-
         }
+
     }
+
+    $checkBoxes = getBoxes();
+    $f3->set('checkBoxes', $checkBoxes);
 
     //Render a view page
     $view = new Template();
-    echo $view->render('views/pet-order.html');
+    echo $view->render('views/survey.html');
 });
 
-    $f3->route('GET /summary', function(){
-        //echo below is used for testing before executing the template
+$f3->route('GET|POST /summary', function(){
+    //echo below is used for testing before executing the template
 //    echo '<h1>Hello Pets 2</h1>';
 
-        //Render a view page
-        $view = new Template();
-        echo $view->render('views/order-summary.html');
-    });
+    //Render a view
+    var_dump($_POST['name']);
+    var_dump($_POST['checkBoxes']);
+    $view = new Template();
+    echo $view->render('views/summary.html');
+});
+
+
 
 //Run Fat-Free
 $f3->run();
